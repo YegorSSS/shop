@@ -1,0 +1,11 @@
+<% provide(:title, @one_news.title) %>
+<% provide(:keywords, @one_news.keywords) %>
+<% provide(:description, @one_news.description) %>
+
+<div class="kroshka">
+	<a href="/">Главная</a> /<a href='/news'>Новости</a> / <span><%= yield(:title) %></span>
+</div>
+<div class="content-txt">
+<h1><%= @one_news.title %></h1>
+<%= @one_news.content %>
+</div>

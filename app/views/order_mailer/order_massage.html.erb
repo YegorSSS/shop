@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+  <h1>Номер Вашего заказа - <%= @order.id %></h1>
+  <h2>Товары:</h2>
+  <% @order.goodsinorders.each do |good| %>
+    <p><%= good.quantity %> x <%= good.good.name %> - <%= good.good.price * good.quantity %></p>
+  <% end %>
+  <h2>Детали заказа</h2>
+
+  <p>Оплата: <%= @order.payment.name if @order.payment_id%></p>
+  <p>Доставка: <%= @order.dostavka.name if @order.dostavka_id%></p>
+  </body>
+</html>

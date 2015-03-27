@@ -1,0 +1,54 @@
+    <div id="right-bar">
+        <div class="right-bar-cont">
+			<div class="enter">
+				<h2><span>Авторизация</span></h2>
+				<div>
+					<% if signed_in_customer? %>
+					<p><%= current_customer.login %></p>
+						<%= link_to 'Личный кабинет', current_customer %>
+						<%= link_to "Выйти", signout_path, method: "delete" %>
+					<% else %>
+            			<%= link_to "Войти", signin_path %>
+            		<% end %>
+
+				</div>	
+			</div>
+            <div class="basket">
+				<h2><span>Корзина</span></h2>
+				<div>
+					<% if session[:goods_basket] && session[:goods_basket].count > 0 %>
+					<p>
+						Товаров в корзине: <span><%= session[:goods_basket].count %></span><br>
+						 на сумму: <span><%= session[:goods_basket_quantity] %></span> грн.
+					</p>
+					<a href="/orders/new" id='order'><img src="/assets/oformit.jpg" alt="" /></a>
+					<% else %>
+					<p> Корзина пуста </p>
+					<% end %>
+				</div>
+			</div>            
+            <div class="share-search">
+				<h2><span>Выбор по параметрам</span></h2>
+				<div>
+					<form method="post" action="">
+					<p>Стоимость:</p>
+					от <input class="podbor-price" type="text" name="start-price" />
+					до <input class="podbor-price" type="text" name="end-price" />
+					 руб.
+					 <br /><br />
+					<p>Производители:</p>
+					<select>
+						<option>Ericsson</option>
+						<option>Alcatel</option>
+						<option>Mitsubish</option>
+						<option>Motorola</option>
+						<option>NEC</option>
+						<option>Nokia</option>							
+					</select>						
+					<input class="podbor" type="image" src="/assets/podbor.jpg" />						
+					</form>
+				</div>
+			</div>
+            
+        </div>        
+    </div>

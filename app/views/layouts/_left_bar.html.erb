@@ -1,0 +1,57 @@
+    <div id="left-bar">
+        <div class="left-bar-cont">
+			<h2><span>Каталог</span></h2>
+			<h3 class="nav-new"><a href="/top?view=fresh">Новинки</a></h3>
+			<h3 class="nav-lider"><a href="/top?view=hits">Лидеры продаж</a></h3>
+			<h3 class="nav-sale"><a href="/top?view=sale">Распродажа</a></h3>
+            <h4><span>- Мобильные телефоны</span></h4>
+
+
+			<ul class="nav-catalog">
+            <% @all_categories.where(parent_id: 0).each do |category| %>
+            	<li><a href="/categories/<%= category.id %>"><%= category.title %></a></li>
+            		<ul>
+            			<% @all_categories.where(parent_id: category.id).each do |child| %>
+            				<li>- <a href="/categories/<%= child.id %>"><%= child.title %></a></li>
+            			<% end %>
+            		</ul>
+            <% end %>
+
+
+			
+			</ul>
+            <div class="bar-contact">
+				<h3>Контакты:</h3>
+				<p><strong>Телефон:</strong><br />
+				<span>8 (800) 700-00-01</span></p>
+			
+				<p><strong>Режим работы:</strong><br />
+				Будние дни: <br />
+				с 9:00 до 18:00<br />
+				Суббота, Воскресенье:<br />
+				выходные</p>
+			</div>
+            <div class="news">
+				<h3>Новости</h3>
+				<% @last_news.each do |news| %>
+				<p>
+				<span><%= news.created_at.strftime('%F') %></span>
+				<a href="/news/<%= news.id %>"><%= news.title %></a>
+				</p>
+				<% end %>
+				
+				<a href="/news" class="news-arh">Архив новостей</a>
+			</div>  
+
+            <% @all_informers.each do |informer| %>
+            
+            	<div class="info">
+            		<h3><%= informer.name %>:</h3>
+            	<% informer.links.each do |link| %>
+            		<p>- <a href="/links/<%= link.id %>"><%= link.title %></a></p>
+				<% end %>
+				</div> 
+            <% end %>
+
+        </div>
+    </div>

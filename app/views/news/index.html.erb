@@ -1,0 +1,23 @@
+<% provide(:title, 'Новости') %>
+
+<div class="kroshka">
+          <a href="/">Главная</a> / <span><%= yield(:title) %></span>
+</div>
+
+<div class="content-txt">
+<h1>Новости</h1>
+<div class='news'>
+<% @all_news.each do |news| %>
+<p>
+	<span><%= news.created_at.strftime('%F') %></span>
+	<a href="/news/<%= news.id %>"><%= news.title %></a>
+	</p>
+	<p><%= news.anons %></p>
+<% end %>
+</div>
+
+<div style='clear:both'></div>
+	<div class='digg_pagination'>
+	<%= will_paginate(@all_news) %>
+</div>
+</div>

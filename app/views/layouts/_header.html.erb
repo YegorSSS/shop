@@ -1,0 +1,25 @@
+<div class="header">
+    	<a href="/"><img class="logo" src="/assets/logo.jpg" alt="Интернет магазин сотовых телефонов" /></a>
+        <img class="slogan" src="/assets/slogan.jpg" alt="Интернет магазин сотовых телефонов" />
+        <div class="head-contact">
+        	<p><strong>Телефон:</strong><br />
+<span>8 (800) 700-00-01</span></p>
+            <p><strong>Режим работы:</strong><br />
+Будние дни: с 9:00 до 18:00 <br /> 
+Суббота, Воскресенье - выходные  </p>
+        </div>
+        <form method="get" action="/search">
+        <ul class="search-head">
+        	<li>
+            <input type="text" name="search" id="quickquery" placeholder="Что вы хотите купить?" />
+            </li>
+            <li><input type="image" class="serch-btn" src="/assets/searc-btn.jpg" /></li>
+        </ul>
+        </form>   
+    </div>
+    <ul class="menu">
+    	<li><a href="/">Главная</a></li>
+        <% @all_pages.each do |page| %>
+            <li><%= link_to page.title, page_path(page) %></li>
+        <% end %>	       			         		           
+    </ul>

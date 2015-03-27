@@ -1,0 +1,134 @@
+<% provide(:title, 'Корзина') %>
+
+<div class="kroshka">
+    <a href="/">Главная</a> / <span>Корзина</span>
+</div>
+
+ <div id="contentwrapper">
+		<div id="content-zakaz">
+		<% if session[:goods_basket].count >= 1 %>
+			<h2>Оформление заказа</h2>
+
+			<%= form_for @order do |f| %>
+			<%= render 'shared/error_messages', object: f.object %>
+
+			  <table class="zakaz-maiin-table" border="0" cellspacing="0" cellpadding="0">
+			  <tr>
+				<td class="z_top">&nbsp;&nbsp;&nbsp;&nbsp;наименование</td>
+				<td class="z_top" align="center">количество</td>
+				<td class="z_top" align="center">стоимость</td>
+				<td class="z_top" align="center">&nbsp;</td>
+			  </tr>
+			  <%= f.fields_for :goodsinorders, @order.goodsinorders do |good_form| %>
+			    <%= good_form.hidden_field :good_id %>
+			    
+			  <tr>
+				<td class="z_name">
+					<a href="/goods/<%= good_form.object.good_id %>"><img src="/assets/<%= good_form.object.good.img %>" width='32px'></a> 
+					<a href="/goods/<%= good_form.object.good_id %>"><%= good_form.object.good.name %></a>
+				</td>
+				<td class="z_kol"><%= good_form.text_field :quantity, html = { class: "kolvo"} %></td>
+				<td class="z_price"><%= good_form.object.good.price * good_form.object.quantity %> грн.</td>
+				<td class="z_del"><a href="/sessions/basket_update?good_id=<%= good_form.object.good_id %>"><img src="/assets/delete.jpg" title="удалить товар из заказа" /></a></td>
+			  </tr>
+                  <br />
+              <% end %>
+			
+			  <tr>
+				<td class="z_bot">&nbsp;&nbsp;&nbsp;&nbsp;Итого:</td>
+				<td class="z_bot" colspan="3" align="right">3 шт &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 34569 руб.</td>
+			  </tr>
+			  
+			</table>
+
+
+
+			
+			
+			
+			<div class="sposob-dostavki">
+				<h4>Способ доставки:</h4>
+				<% Dostavka.all.each do |dostavka| %>
+					<p><%= f.radio_button :dostavka_id, dostavka.id %> <%= dostavka.name %></p>
+				<% end %>
+			</div>
+
+			<div class="sposob-dostavki">
+				<h4>Способ оплаты:</h4>
+				<% Payment.all.each do |payment| %>
+					<p><%= f.radio_button :payment_id, payment.id %> <%= payment.name %></p>
+				<% end %>
+			</div>	
+			
+			
+			<h3>Информация для доставки:</h3>
+			
+			<table class="zakaz-data" border="0" cellspacing="0" cellpadding="0">
+			  <% if current_customer %>
+			  <%= f.hidden_field :customer_id, value: current_customer.id %>
+			  <tr>
+				<td class="zakaz-txt">ФИО</td>
+				<td class="zakaz-inpt"><%= f.text_field :name, value: current_customer.name %></td>
+				<td class="zakaz-prim">Пример: Иванов Сергей Александрович</td>
+			  </tr>
+			  <tr>
+				<td class="zakaz-txt">Е-маил</td>
+				<td class="zakaz-inpt"><%= f.text_field :mail, value: current_customer.email %></td>
+				<td class="zakaz-prim">Пример: test@mail.ru</td>
+			  </tr>
+			  <tr>
+				<td class="zakaz-txt">Телефон</td>
+				<td class="zakaz-inpt"><%= f.text_field :tel, value: current_customer.tel %></td>
+				<td class="zakaz-prim">Пример: 8 937 999 99 99</td>
+			  </tr>
+			  <tr>
+				<td class="zakaz-txt">Адрес доставки</td>
+				<td class="zakaz-inpt"><%= f.text_field :address, value: current_customer.address %></td>
+				<td class="zakaz-prim">Пример: г. Москва, пр. Мира, ул. Петра Великого д.19, кв 51.</td>
+			  </tr>
+			  <% else %>
+			  <tr>
+				<td class="zakaz-txt">ФИО</td>
+				<td class="zakaz-inpt"><%= f.text_field :name %></td>
+				<td class="zakaz-prim">Пример: Иванов Сергей Александрович</td>
+			  </tr>
+			  <tr>
+				<td class="zakaz-txt">Е-маил</td>
+				<td class="zakaz-inpt"><%= f.text_field :mail %></td>
+				<td class="zakaz-prim">Пример: test@mail.ru</td>
+			  </tr>
+			  <tr>
+				<td class="zakaz-txt">Телефон</td>
+				<td class="zakaz-inpt"><%= f.text_field :tel %></td>
+				<td class="zakaz-prim">Пример: 8 937 999 99 99</td>
+			  </tr>
+			  <tr>
+				<td class="zakaz-txt">Адрес доставки</td>
+				<td class="zakaz-inpt"><%= f.text_field :address %></td>
+				<td class="zakaz-prim">Пример: г. Москва, пр. Мира, ул. Петра Великого д.19, кв 51.</td>
+			  </tr>
+			  <% end %>
+			  <tr>
+				<td class="zakaz-txt" style="vertical-align:top;">Примечание </td>
+				<td class="zakaz-txtarea"><%= f.text_area :detail %></td>
+				<td class="zakaz-prim" style="vertical-align:top;">Пример: Позвоните пожалуйста после 10 вечера, 
+до этого времени я на работе </td>
+			  </tr>
+			</table>
+
+				<%= f.submit type: 'image', src: "/assets/zakazat.jpg" %>
+			<% end %>
+				
+				<br /><br /><br /><br />
+			
+			
+			</form>
+
+		<% else %>
+			<h2>Ваша корзина пуста</h2>
+		<% end %>
+		</div>
+    
+    	
+    </div> 
+    

@@ -1,0 +1,80 @@
+<% provide(:title, "#{@good.name} (#{@good.articul})") %>
+
+<div class="kroshka">
+    <a href="/">Главная</a> /<a href='/categories/<%= @good.category.id %>'><%= @good.category.title %></a> / <span><%= yield(:title) %></span>
+</div>
+
+<div class="catalog-detail"> 
+                <h1><%= @good.name %></h1>
+
+
+
+                <% if @good.img_slide.split('|').count > 1 %>
+					<div class="item_gallery" style='float: left; margin-bottom: 30px; width:300px;'>
+   						<div class="item_img">
+     						  <img src="" />
+   						</div> <!-- .item_img -->
+   						<div class="item_thumbs">
+
+   						<% @good.img_slide.split('|').each do |img| %>
+   						<a href='/assets/photos/<%= img %>'><img src='/assets/thumbs/<%= img %>'></a>
+   						<% end %>
+  						</div> <!-- .item_thumbs -->
+					</div> <!-- .item_gallery -->
+				<% else %>
+					<div class="item_gallery" style='float: left; margin-bottom: 30px; width:300px;'>
+   						<div class="item_img">
+     						  <img src="/assets/<%= @good.img %>" />
+   						</div> <!-- .item_img -->
+   					</div>
+				<% end %>
+
+               
+               <div class="icon-detail">
+               	<% if @good.fresh %>
+					<img src="/assets/ico-det-new.jpg" alt="новинка" />
+				<% end %>
+				<% if @good.hits %>
+					<img src="/assets/ico-det-lider.jpg" alt="лидер продаж" />
+				<% end %>
+				<% if @good.sale %>
+					<img src="/assets/ico-det-sale.jpg" alt="распродажа" />
+				<% end %>
+				</div>
+				
+				<div class="short-opais">
+<h3>Артикул:</h3>
+<p><%= @good.articul %></p>
+<h3>Краткое описание:</h3>
+<p><%= @good.anons %></p>
+<% if @good.presence %>
+	<p class="price-detail">Цена :  <span><%= @good.price %> грн.</span></p>
+	<a href="/sessions/basket?good_id=<%= @good.id %>"><img class="addtocard-index" src="/assets/addcard-detail.jpg" alt="Добавить в карзину" /></a>
+<% else %>
+	<p class="price-detail">Цена :  <span>Нет в наличии..</span></p>
+	<img class="addtocard-index" src="/assets/addcard-detail.jpg" alt="Добавить в карзину" />
+	
+<% end %>
+
+				</div>
+				
+				<div class="clr"></div>
+				
+				<div class="long-opais">
+<h3>Описание <%= @good.name %>:</h3>
+<p><%= @good.content %></p>
+				
+				</div>
+				
+
+<% if @good.goodparams.count > 0 %>
+	<div class="tech-harakt">
+		<h3>Технические характеристики</h3>
+  		<% @good.goodparams.each do |param| %>
+  			<p><strong><%= param.characteristic.name %></strong>
+  			<%= param.value %></p>
+		<% end %>
+	</div>
+<% end %>
+ <div class="clr"></div>
+</div> 

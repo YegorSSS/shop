@@ -1,0 +1,32 @@
+<% provide(:title, "Результаты поиска") %>
+
+<div class="content-txt">
+    <div class="catalog-index">
+		<div class="vid-sort">
+			Вид: 
+			<a href="/sessions/display?display=table" id="table"><img src="/assets/vid-tabl.gif" title="табличный вид" alt="табличный вид" /></a> 
+			<a href="/sessions/display?display=line" id="line"><img src="/assets/vid-line.gif" title="линейный вид" alt="линейный вид" /></a>  
+						&nbsp;&nbsp;           
+			Сортировать по:&nbsp;    
+			<a href="/sessions/sort_goods?sort_goods=price" class="sort-top<%= '-act' if session[:sort_goods] == 'price' %>">цене</a>  &nbsp;|&nbsp;     
+			<a href="/sessions/sort_goods?sort_goods=name" class="sort-top<%= '-act' if session[:sort_goods] == 'name' %>">названию</a>  &nbsp;|&nbsp;     
+			<a href="/sessions/sort_goods?sort_goods=views" class="sort-top<%= '-act' if session[:sort_goods] == 'views' || session[:sort_goods].nil? %>">рейтингу</a>
+		</div>
+<% if @goods.count < 1  %>
+	<p>По Вашему запросу товаров не найдено.</p>
+<% else %>
+	<div class='digg_pagination'>
+	<%= will_paginate(@goods) %>
+	</div>
+	<% if session[:display] == "line" %>
+	<%= render 'categories/line.html.erb' %>
+	<% else %>
+	<%= render 'categories/table.html.erb' %>
+	<% end %>
+	<div style='clear:both'></div>
+	<div class='digg_pagination'>
+	<%= will_paginate(@goods) %>
+	</div>
+<% end %>
+	</div>
+</div>

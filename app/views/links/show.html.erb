@@ -1,0 +1,11 @@
+<% provide(:title, @link.title) %>
+<% provide(:keywords, @link.keyword) %>
+<% provide(:description, @link.description) %>
+
+<div class="kroshka">
+	<a href="/">Главная</a> / <span><%= @link.title %></span>
+</div>
+<div class="content-txt">
+<h1><%= @link.title %></h1>
+<%= @link.content %>
+</div>
